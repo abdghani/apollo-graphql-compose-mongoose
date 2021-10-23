@@ -2,7 +2,7 @@ const crypto = require('crypto-random-string')
 const moment = require('moment')
 
 const userService = {
-  // creates a verification token which 
+  // creates a verification token which
   // is sent to mail for verification
   createVerificationToken: async user => {
     const token = crypto({ length: 48, type: 'url-safe' })

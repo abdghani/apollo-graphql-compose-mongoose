@@ -1,125 +1,118 @@
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const crypto = require("crypto-random-string");
-const moment = require("moment");
+const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
+const crypto = require('crypto-random-string')
+const moment = require('moment')
 
-const redis = require("@app/redis");
-const { userService, createToken } = require("@app/module/user/service");
-const UserModel = require("@app/module/user/model");
+const redis = require('@app/redis')
+const { userService, createToken } = require('@app/module/user/service')
+const UserModel = require('@app/module/user/model')
 
 const user = {
-  name: "user",
-  type: "User!",
-  resolve: ({ context: { user } }) => user,
-};
+  name: 'user',
+  type: 'User!',
+  resolve: ({ context: { user } }) => user
+}
 
 const signIn = {
-  name: "signIn",
-  type: "AccessToken!",
+  name: 'signIn',
+  type: 'AccessToken!',
   args: {
-    email: "String!",
-    password: "String!",
+    email: 'String!',
+    password: 'String!'
   },
   resolve: async ({ args: { email, password } }) => {
     try {
-      const user = await UserModel.emailExist(email);
+      const user = await UserModel.emailExist(email)
       if (!user) {
-        return Promise.reject(new Error("User not found."));
+        return Promise.reject(new Error('User not found.'))
       }
 
-      const comparePassword = await user.comparePassword(password);
+      const comparePassword = await user.comparePassword(password)
       if (!comparePassword) {
-        return Promise.reject(new Error("Password is incorrect."));
+        return Promise.reject(new Error('Password is incorrect.'))
       }
 
-      const accessToken = createToken(user);
+      const accessToken = createToken(user)
 
-      return { accessToken };
+      return { accessToken }
     } catch (error) {
-      return Promise.reject(error);
+      return Promise.reject(error)
     }
-  },
-};
+  }
+}
 
 const signUp = {
-  name: "signUp",
-  type: "AccessToken!",
+  name: 'signUp',
+  type: 'AccessToken!',
   args: {
-    name: "String",
-    email: "String!",
-    password: "String!",
+    name: 'String',
+    email: 'String!',
+    password: 'String!'
   },
-  resolve: async ({ args: { email, password, name }, context: { i18n } }) => {
+  resolve: async ({ args: { email, password, name } }) => {
     try {
-      let user = await UserModel.emailExist(email);
+      let user = await UserModel.emailExist(email)
       if (user) {
-        return Promise.reject(new Error("Email has already been taken."));
+        return Promise.reject(new Error('Email has already been taken.'))
       }
 
-      const hash = bcrypt.hashSync(password, 10);
+      const hash = bcrypt.hashSync(password, 10)
 
       user = await new UserModel({
         name,
         email,
-        password: hash,
-      }).save();
+        password: hash
+      }).save()
 
-      const accessToken = createToken(user);
+      const accessToken = createToken(user)
 
-      const token = await userService.createVerificationToken(user);
+      const token = await userService.createVerificationToken(user)
 
-      return { accessToken };
+      return { accessToken }
     } catch (error) {
-      return Promise.reject(error);
+      return Promise.reject(error)
     }
-  },
-};
+  }
+}
 
 const logout = {
-  name: "logout",
-  type: "Succeed!",
+  name: 'logout',
+  type: 'Succeed!',
   resolve: async ({ context: { user, accessToken } }) => {
     try {
-      await redis.set(
-        `expiredToken:${accessToken}`,
-        user._id,
-        "EX",
-        process.env.REDIS_TOKEN_EXPIRY
-      );
+      await redis.set(`expiredToken:${accessToken}`, user._id, 'EX', process.env.REDIS_TOKEN_EXPIRY)
 
-      return { succeed: true };
+      return { succeed: true }
     } catch (error) {
-      return Promise.reject(error);
+      return Promise.reject(error)
     }
-  },
-};
+  }
+}
 
 const verifyRequest = {
-  name: "verifyRequest",
-  type: "Succeed!",
+  name: 'verifyRequest',
+  type: 'Succeed!',
   resolve: async ({ context: { user } }) => {
     try {
-      const token = await userService.verifyRequest(user);
-      return { succeed: true };
+      const token = await userService.verifyRequest(user)
+      return { succeed: true }
     } catch (error) {
-      return Promise.reject(error);
+      return Promise.reject(error)
     }
-  },
-};
+  }
+}
 
 const verify = {
-  name: "verify",
-  type: "AccessToken!",
-  args: { token: "String!" },
+  name: 'verify',
+  type: 'AccessToken!',
+  args: { token: 'String!' },
   resolve: async ({ args: { token } }) => {
     try {
       const user = await UserModel.findOne({
-        "account.verification.token": token,
-      });
+        'account.verification.token': token
+      })
       if (!user) {
-        return Promise.reject(
-          new Error("Access Token is not valid or has expired.")
-        );
+        return Promise.reject(new Error('Access Token is not valid or has expired.'))
       }
 
       user.set({
@@ -127,140 +120,132 @@ const verify = {
           verification: {
             verified: true,
             token: null,
-            expiresIn: null,
-          },
-        },
-      });
+            expiresIn: null
+          }
+        }
+      })
 
-      await user.save();
-      const accessToken = createToken(user);
-      return { accessToken };
+      await user.save()
+      const accessToken = createToken(user)
+      return { accessToken }
     } catch (error) {
-      return Promise.reject(error);
+      return Promise.reject(error)
     }
-  },
-};
+  }
+}
 
 const resetPassword = {
-  name: "resetPassword",
-  type: "Succeed!",
-  args: { email: "String!" },
+  name: 'resetPassword',
+  type: 'Succeed!',
+  args: { email: 'String!' },
   resolve: async ({ args: { email } }) => {
     try {
-      const user = await UserModel.findOne({ email });
+      const user = await UserModel.findOne({ email })
       if (!user) {
-        return Promise.reject(new Error("User not found."));
+        return Promise.reject(new Error('User not found.'))
       }
 
-      const token = crypto({ length: 48, type: "url-safe" });
-      const expiresIn = moment().add(7, "days");
+      const token = crypto({ length: 48, type: 'url-safe' })
+      const expiresIn = moment().add(7, 'days')
 
       user.set({
         account: {
           resetPassword: {
             token,
-            expiresIn,
-          },
-        },
-      });
+            expiresIn
+          }
+        }
+      })
 
-      await user.save();
+      await user.save()
 
-      return { succeed: true };
+      return { succeed: true }
     } catch (error) {
-      return Promise.reject(error);
+      return Promise.reject(error)
     }
-  },
-};
+  }
+}
 
 const newPassword = {
-  name: "newPassword",
-  type: "AccessToken!",
-  args: { token: "String!", newPassword: "String!" },
+  name: 'newPassword',
+  type: 'AccessToken!',
+  args: { token: 'String!', newPassword: 'String!' },
   resolve: async ({ args: { token, newPassword } }) => {
     try {
       const user = await UserModel.findOne({
-        "account.resetPassword.token": token,
-      });
+        'account.resetPassword.token': token
+      })
       if (!user) {
-        return Promise.reject(
-          new Error("Access Token is not valid or has expired.")
-        );
+        return Promise.reject(new Error('Access Token is not valid or has expired.'))
       }
 
-      const hash = bcrypt.hashSync(newPassword, 10);
+      const hash = bcrypt.hashSync(newPassword, 10)
 
       user.set({
         password: hash,
         account: {
           resetPassword: {
             token: null,
-            expiresIn: null,
-          },
-        },
-      });
+            expiresIn: null
+          }
+        }
+      })
 
-      await user.save();
+      await user.save()
 
-      const accessToken = createToken(user);
+      const accessToken = createToken(user)
 
-      return { accessToken };
+      return { accessToken }
     } catch (error) {
-      return Promise.reject(error);
+      return Promise.reject(error)
     }
-  },
-};
+  }
+}
 
 const changePassword = {
-  name: "changePassword",
-  type: "Succeed!",
-  args: { currentPassword: "String!", newPassword: "String!" },
-  resolve: async ({
-    args: { currentPassword, newPassword },
-    context: { user },
-  }) => {
+  name: 'changePassword',
+  type: 'Succeed!',
+  args: { currentPassword: 'String!', newPassword: 'String!' },
+  resolve: async ({ args: { currentPassword, newPassword }, context: { user } }) => {
     try {
-      const comparePassword = await user.comparePassword(currentPassword);
+      const comparePassword = await user.comparePassword(currentPassword)
       if (!comparePassword) {
-        return Promise.reject(new Error("Current password is incorrect."));
+        return Promise.reject(new Error('Current password is incorrect.'))
       }
 
-      const hash = bcrypt.hashSync(newPassword, 10);
+      const hash = bcrypt.hashSync(newPassword, 10)
 
-      user.set({ password: hash });
+      user.set({ password: hash })
 
-      await user.save();
+      await user.save()
 
-      return { succeed: true };
+      return { succeed: true }
     } catch (error) {
-      return Promise.reject(error);
+      return Promise.reject(error)
     }
-  },
-};
+  }
+}
 
 const updateUser = {
-  name: "updateUser",
-  type: "User!",
-  args: { email: "String!", firstName: "String!", lastName: "String!" },
-  resolve: async ({
-    args: { email, firstName, lastName },
-    context: { user },
-  }) => {
+  name: 'updateUser',
+  type: 'User!',
+  args: { email: 'String!', firstName: 'String!', lastName: 'String!' },
+  resolve: async ({ args: { email, firstName, lastName }, context: { user } }) => {
     try {
       let {
           account: {
-            verification: { verified },
-          },
+            verification: { verified }
+          }
         } = user,
-        verifyRequest = false;
+        verifyRequest = false
 
       if (user.email !== email) {
-        const userExist = await UserModel.findOne({ email });
+        const userExist = await UserModel.findOne({ email })
         if (userExist) {
-          return Promise.reject(new Error("Email has already been taken."));
+          return Promise.reject(new Error('Email has already been taken.'))
         }
-        verified = false;
-        verifyRequest = true;
+        verified = false
+        verifyRequest = true
       }
 
       user.set({
@@ -269,23 +254,23 @@ const updateUser = {
         lastName,
         account: {
           verification: {
-            verified,
-          },
-        },
-      });
+            verified
+          }
+        }
+      })
 
-      await user.save();
+      await user.save()
 
       if (verifyRequest) {
-        const token = await userService.verifyRequest(user);
+        const token = await userService.verifyRequest(user)
       }
 
-      return user;
+      return user
     } catch (error) {
-      return Promise.reject(error);
+      return Promise.reject(error)
     }
-  },
-};
+  }
+}
 
 module.exports = {
   user,
@@ -297,5 +282,5 @@ module.exports = {
   resetPassword,
   newPassword,
   changePassword,
-  updateUser,
-};
+  updateUser
+}

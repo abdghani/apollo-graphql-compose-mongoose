@@ -1,4 +1,4 @@
-const User = require("@app/module/user");
+const User = require('@app/module/user')
 // require("@app/module/relations");
 
-module.exports = { User };
+module.exports = { User }

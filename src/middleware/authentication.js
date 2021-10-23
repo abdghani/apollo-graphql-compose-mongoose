@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken')
 const redis = require('@app/redis')
 const UserModel = require('@app/module/user/model')
 
-const authentication = async ({req}) => {
+const authentication = async ({ req }) => {
   try {
     const {
       headers: { authorization }
@@ -30,7 +30,7 @@ const authentication = async ({req}) => {
       return {}
     }
 
-    return { user, accessToken };
+    return { user, accessToken }
   } catch (error) {
     return {}
   }
