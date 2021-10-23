@@ -1,0 +1,76 @@
+{
+  "name": "express-graphql-mongodb-boilerplate",
+  "version": "9.0.0",
+  "description": "A boilerplate for Node.js apps / GraphQL-Apollo / Authentication from scratch - express, graphql - (graphql compose), mongodb (mongoose).",
+  "main": "./src",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/abdghani/apollo-graphql-compose-mongoose"
+  },
+  "bugs": "https://github.com/abdghani/apollo-graphql-compose-mongoose/issues",
+  "keywords": [
+    "express",
+    "graphql",
+    "graphql-compose",
+    "mongodb",
+    "mongoose",
+    "node",
+    "nodejs",
+    "authentication",
+    "scratch",
+    "boilerplate",
+    "authorization",
+    "docker",
+    "api"
+  ],
+  "scripts": {
+    "start": "cross-env NODE_PATH=./src node ./src",
+    "start:local": "cross-env NODE_PATH=./src nodemon ./src",
+    "lint": "eslint --debug ./src",
+    "lint:fix": "eslint --debug ./src --fix",
+    "prettier": "prettier \"**/*.+(js|jsx|json|css|md)\"",
+    "prettier:fix": "prettier --write \"**/*.+(js|jsx|json|css|md)\""
+  },
+  "engines": {
+    "node": "12.x"
+  },
+  "author": "Abdullah Ghani",
+  "license": "MIT",
+  "dependencies": {
+    "@graphql-tools/schema": "^8.3.0",
+    "apollo-server-express": "^3.4.0",
+    "bcryptjs": "^2.4.3",
+    "check-types": "^11.1.2",
+    "cors": "^2.8.5",
+    "crypto-random-string": "^3.3.0",
+    "dotenv": "^8.6.0",
+    "ejs": "^3.1.5",
+    "email-templates": "^8.0.2",
+    "express": "^5.0.0-alpha.8",
+    "graphql": "^15.6.1",
+    "graphql-compose": "^9.0.3",
+    "graphql-compose-mongoose": "^9.7.0",
+    "graphql-redis-subscriptions": "^2.4.0",
+    "graphql-subscriptions": "^1.2.1",
+    "hashids": "^2.2.8",
+    "i18next": "^19.8.4",
+    "i18next-express-middleware": "^2.0.0",
+    "ioredis": "^4.19.2",
+    "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.21",
+    "module-alias": "^2.2.2",
+    "moment": "^2.29.1",
+    "mongoose": "^6.0.10",
+    "nodemailer": "^6.4.16",
+    "subscriptions-transport-ws": "^0.9.19",
+    "validator": "^13.5.2",
+    "winston": "^3.3.3"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "eslint": "^7.15.0",
+    "eslint-config-prettier": "^6.14.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "prettier": "^2.2.1"
+  }
+}
