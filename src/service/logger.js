@@ -1,7 +1,7 @@
 const winston = require('winston')
 
 const {
-  format: { combine, timestamp, json, splat, simple }
+  format: { combine, simple }
 } = winston
 
 const options = {

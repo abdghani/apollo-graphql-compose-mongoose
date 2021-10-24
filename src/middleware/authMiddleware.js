@@ -1,5 +1,3 @@
-const { async } = require('crypto-random-string')
-
 const authMiddleware = {
   isAuth: async (resolve, source, args, context, info) => {
     const { user } = context

@@ -22,7 +22,7 @@ const startApolloServer = async () => {
     context: authentication,
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })]
   })
-  const subscriptionServer = SubscriptionServer.create(
+  SubscriptionServer.create(
     {
       // This is the `schema` we just created.
       schema,

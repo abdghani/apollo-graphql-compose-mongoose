@@ -1,5 +1,5 @@
 const validator = require('validator')
-const { isUndefined } = require("@app/util/check");
+const { isUndefined } = require('@app/util/check')
 
 const userValidator = {
   changePassword: async (resolve, source, args, context, info) => {
@@ -68,7 +68,7 @@ const userValidator = {
   updateUser: async (resolve, source, args, context, info) => {
     let {
       input: { name }
-    } = args;
+    } = args
     if (!isUndefined(name) && !validator.isLength(name, { min: 3 })) {
       return Promise.reject(new Error('Error: name'))
     }

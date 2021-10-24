@@ -1,7 +1,5 @@
 var check = require('check-types')
 var validator = require('validator')
-var path = require('path')
-var _ = require('lodash')
 
 var isUndefined = function (obj) {
   return check.undefined(obj)
@@ -79,19 +77,6 @@ exports.isInArray = function (item, arr) {
   }
 
   return arr.indexOf(item) > -1
-}
-
-exports.isPositiveInteger = function (obj) {
-  if (!isUndefinedOrNullOrEmpty(obj) && !isNaN(obj)) {
-    var intVal = parseInt(obj)
-    return check.integer(intVal) && (check.positive(intVal) || check.zero(intVal))
-  }
-
-  return false
-}
-
-exports.isPositiveNumber = function (obj) {
-  return check.positive()
 }
 
 // exports.isNull = isNull;

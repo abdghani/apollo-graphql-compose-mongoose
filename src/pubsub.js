@@ -1,5 +1,4 @@
 const { RedisPubSub } = require('graphql-redis-subscriptions')
-// eslint-disable-next-line import/no-extraneous-dependencies
 const Redis = require('ioredis')
 
 const options = {

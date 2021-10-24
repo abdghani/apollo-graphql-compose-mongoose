@@ -10,7 +10,7 @@ const createPosts = {
     title: 'String!',
     content: 'String'
   },
-  resolve: ({ args: { createdBy, title, content }, context: { user } }) => {
+  resolve: ({ args: { createdBy, title, content } }) => {
     const newPost = PostModel({
       createdBy,
       title,
@@ -20,7 +20,7 @@ const createPosts = {
       newPost.save()
       pubsub.publish(topics.POST_ADDED, { payload: newPost })
       return newPost
-    } catch (err) {
+    } catch (error) {
       return Promise.reject(error)
     }
   }
@@ -34,7 +34,7 @@ const updatePostById = {
     title: 'String',
     content: 'String'
   },
-  resolve: async ({ args: { postId, title, content }, context: { user } }) => {
+  resolve: async ({ args: { postId, title, content } }) => {
     try {
       const post = await PostModel.findOne({ _id: postId }).exec()
       if (isNull(post)) return Promise.reject(new Error('Post not found.'))

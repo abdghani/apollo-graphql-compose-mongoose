@@ -1,8 +1,9 @@
 const bcrypt = require('bcryptjs')
 const moment = require('moment')
 const redis = require('@app/redis')
+const crypto = require('crypto-random-string')
 const UserModel = require('@app/module/user/model')
-const { isUndefined } = require("@app/util/check");
+const { isUndefined } = require('@app/util/check')
 
 const { userService, createToken } = require('@app/module/user/service')
 const { toInputObjectType } = require('graphql-compose')
@@ -67,7 +68,7 @@ const signUp = {
 
       const accessToken = createToken(user)
 
-      const token = await userService.createVerificationToken(user)
+      await userService.createVerificationToken(user)
 
       return { accessToken }
     } catch (error) {
@@ -95,7 +96,7 @@ const verifyRequest = {
   type: 'Succeed!',
   resolve: async ({ context: { user } }) => {
     try {
-      const token = await userService.verifyRequest(user)
+      await userService.verifyRequest(user)
       return { succeed: true }
     } catch (error) {
       return Promise.reject(error)
@@ -234,13 +235,12 @@ const updateUser = {
   resolve: async ({ args: { input }, context: { user } }) => {
     try {
       const { name, profilePic } = input
-      
-      if(!isUndefined(name)) user.name = name
-      if(!isUndefined(profilePic)) user.profilePic = profilePic
-      
+
+      if (!isUndefined(name)) user.name = name
+      if (!isUndefined(profilePic)) user.profilePic = profilePic
+
       await user.save()
       return user
-
     } catch (error) {
       return Promise.reject(error)
     }
