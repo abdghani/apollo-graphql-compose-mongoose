@@ -9,6 +9,8 @@
 - JWT authenticaion
 - Subscription
 
+## Demo
+Goto [graphql explorer](https://studio.apollographql.com/sandbox/explorer) and use [this link](https://apollo-gql-compose-mongoose.herokuapp.com/graphql)
 
 ### Redis
 
