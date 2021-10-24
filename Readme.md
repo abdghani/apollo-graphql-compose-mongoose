@@ -1,17 +1,25 @@
-# [SOP Backend](https://github.com/Survaider/sop-backend)
-
+# [apollo-graphql-compose-mongoose boilerplate](https://github.com/abdghani/apollo-graphql-compose-mongoose)
 
 [![](https://img.shields.io/badge/author-@abdullah-blue.svg)](https://github.com/abdghani)
 [![GitHub license](https://img.shields.io/github/license/abdghani/apollo-graphql-compose-mongoose)](https://github.com/abdghani/apollo-graphql-compose-mongoose/blob/master/LICENSE)
 
-## Backend apis for SOP build using graphql-compose
+## Salient Features
+- Apollo graphql express server
+- graphql-compose-mongoose
+- JWT authenticaion
+- Subscription
+
 
 ### Redis
+
 _Mac (using [homebrew](http://brew.sh/)):_
+
 ```bash
 brew install redis
 ```
+
 _Linux:_
+
 ```bash
 sudo apt-get install redis-server
 ```
@@ -92,7 +100,6 @@ yarn lint:write # with prefix --fix
 ├─ docker-compose.yml
 └─ package.json
 ```
-
 
 ## License
 

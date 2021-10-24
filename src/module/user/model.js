@@ -6,8 +6,6 @@ const { encodeObjectId } = require('@app/util/encoding')
 
 const { Schema } = mongoose
 
-const allowedRoles = ['superuser', 'admin', 'employer']
-
 const userSchema = new Schema(
   {
     email: {

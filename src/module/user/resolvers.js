@@ -1,11 +1,12 @@
 const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
-const crypto = require('crypto-random-string')
 const moment = require('moment')
-
 const redis = require('@app/redis')
-const { userService, createToken } = require('@app/module/user/service')
 const UserModel = require('@app/module/user/model')
+const { isUndefined } = require("@app/util/check");
+
+const { userService, createToken } = require('@app/module/user/service')
+const { toInputObjectType } = require('graphql-compose')
+const { UserUpdate } = require('./inputs')
 
 const user = {
   name: 'user',
@@ -229,43 +230,17 @@ const changePassword = {
 const updateUser = {
   name: 'updateUser',
   type: 'User!',
-  args: { email: 'String!', firstName: 'String!', lastName: 'String!' },
-  resolve: async ({ args: { email, firstName, lastName }, context: { user } }) => {
+  args: { input: toInputObjectType(UserUpdate) },
+  resolve: async ({ args: { input }, context: { user } }) => {
     try {
-      let {
-          account: {
-            verification: { verified }
-          }
-        } = user,
-        verifyRequest = false
-
-      if (user.email !== email) {
-        const userExist = await UserModel.findOne({ email })
-        if (userExist) {
-          return Promise.reject(new Error('Email has already been taken.'))
-        }
-        verified = false
-        verifyRequest = true
-      }
-
-      user.set({
-        email,
-        firstName,
-        lastName,
-        account: {
-          verification: {
-            verified
-          }
-        }
-      })
-
+      const { name, profilePic } = input
+      
+      if(!isUndefined(name)) user.name = name
+      if(!isUndefined(profilePic)) user.profilePic = profilePic
+      
       await user.save()
-
-      if (verifyRequest) {
-        const token = await userService.verifyRequest(user)
-      }
-
       return user
+
     } catch (error) {
       return Promise.reject(error)
     }

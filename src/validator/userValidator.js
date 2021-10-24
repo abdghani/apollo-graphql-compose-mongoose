@@ -1,4 +1,5 @@
 const validator = require('validator')
+const { isUndefined } = require("@app/util/check");
 
 const userValidator = {
   changePassword: async (resolve, source, args, context, info) => {
@@ -65,25 +66,12 @@ const userValidator = {
   },
 
   updateUser: async (resolve, source, args, context, info) => {
-    let { email } = args
-
-    email = validator.normalizeEmail(email)
-    email = validator.trim(email)
-
-    Object.assign(args, { email })
-
-    const { firstName, lastName } = args
-
-    if (!validator.isEmail(email, { allow_utf8_local_part: false })) {
-      return Promise.reject(new Error('Error: email'))
+    let {
+      input: { name }
+    } = args;
+    if (!isUndefined(name) && !validator.isLength(name, { min: 3 })) {
+      return Promise.reject(new Error('Error: name'))
     }
-    if (!validator.isLength(firstName, { min: 2 })) {
-      return Promise.reject(new Error('Error: firstName'))
-    }
-    if (!validator.isLength(lastName, { min: 2 })) {
-      return Promise.reject(new Error('Error: lastName'))
-    }
-
     return resolve(source, args, context, info)
   }
 }

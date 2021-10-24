@@ -2,18 +2,20 @@ const { schemaComposer } = require('graphql-compose')
 
 require('@app/graphql/types')
 
-const { User } = require('@app/module')
+const { User, Post } = require('@app/module')
 
 schemaComposer.Query.addFields({
-  ...User.query
+  ...User.query,
+  ...Post.query
 })
 
 schemaComposer.Mutation.addFields({
-  ...User.mutation
+  ...User.mutation,
+  ...Post.mutation
 })
 
 schemaComposer.Subscription.addFields({
-  // ...Entity.subscription,
+  ...Post.subscription
 })
 
 const schema = schemaComposer.buildSchema()

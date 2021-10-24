@@ -3,10 +3,7 @@ const { composeWithMongoose } = require('graphql-compose-mongoose')
 
 const UserModel = require('@app/module/user/model')
 
-const UserTC = composeWithMongoose(UserModel)
-  .removeField('password')
-  .removeField('_id')
-  .removeField('entityId')
+const UserTC = composeWithMongoose(UserModel).removeField('password')
 
 const userAccountTC = UserTC.getFieldTC('account')
 

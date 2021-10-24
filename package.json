@@ -1,6 +1,6 @@
 {
   "name": "express-graphql-mongodb-boilerplate",
-  "version": "9.0.0",
+  "version": "1.0.0",
   "description": "A boilerplate for Node.js apps / GraphQL-Apollo / Authentication from scratch - express, graphql - (graphql compose), mongodb (mongoose).",
   "main": "./src",
   "repository": {
@@ -38,7 +38,7 @@
   "license": "MIT",
   "dependencies": {
     "@graphql-tools/schema": "^8.3.0",
-    "apollo-server-express": "^3.4.0",
+    "apollo-server-express": "^3.3.0",
     "bcryptjs": "^2.4.3",
     "check-types": "^11.1.2",
     "cors": "^2.8.5",

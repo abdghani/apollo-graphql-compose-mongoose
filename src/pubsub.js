@@ -14,7 +14,7 @@ const pubsub = new RedisPubSub({
 })
 
 const topics = {
-  ENTITY_ADDED: 'ENTITY_ADDED'
+  POST_ADDED: 'POST_ADDED'
 }
 
 module.exports = {
