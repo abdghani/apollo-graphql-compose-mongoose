@@ -6,18 +6,16 @@ const createPosts = {
   name: 'createPosts',
   type: 'Post!',
   args: {
-    createdBy: 'String!',
     title: 'String!',
     content: 'String'
   },
-  resolve: ({ args: { createdBy, title, content } }) => {
-    const newPost = PostModel({
-      createdBy,
-      title,
-      content
-    })
+  resolve: async({ args: { title, content }, context: { user } }) => {
     try {
-      newPost.save()
+      const newPost = await new PostModel({
+        createdBy: user._id,
+        title,
+        content
+      }).save()
       pubsub.publish(topics.POST_ADDED, { payload: newPost })
       return newPost
     } catch (error) {
