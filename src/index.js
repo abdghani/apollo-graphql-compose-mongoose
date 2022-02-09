@@ -1,9 +1,9 @@
 require('module-alias').addAlias('@app', `${__dirname}/`)
 
-// setting env vatiables
+// setting env variables
 require('dotenv').config()
 
-// emabling logers
+// enabling loggers
 require('@app/service/logger')
 
 // initializing redis

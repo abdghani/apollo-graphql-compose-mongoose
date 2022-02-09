@@ -9,7 +9,7 @@ const createPosts = {
     title: 'String!',
     content: 'String'
   },
-  resolve: async({ args: { title, content }, context: { user } }) => {
+  resolve: async ({ args: { title, content }, context: { user } }) => {
     try {
       const newPost = await new PostModel({
         createdBy: user._id,
