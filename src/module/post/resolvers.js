@@ -1,6 +1,6 @@
 const PostModel = require('@app/module/post/model')
 const { isUndefined, isNull } = require('@app/util/check')
-const { pubsub, topics } = require('@app/pubsub')
+const { pubsub, topics } = require('@app/service/pubsub')
 
 const createPosts = {
   name: 'createPosts',

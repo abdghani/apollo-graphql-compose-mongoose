@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs')
 const moment = require('moment')
-const redis = require('@app/redis')
+const redis = require('@app/service/redis')
 const crypto = require('crypto-random-string')
 const UserModel = require('@app/module/user/model')
 const { isUndefined } = require('@app/util/check')

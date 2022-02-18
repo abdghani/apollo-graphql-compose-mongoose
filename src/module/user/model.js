@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs')
 
-const mongoose = require('@app/mongoose')
+const mongoose = require('@app/service/mongoose')
 
 const { encodeObjectId } = require('@app/util/encoding')
 

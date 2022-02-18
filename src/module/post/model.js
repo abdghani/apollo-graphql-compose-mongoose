@@ -1,4 +1,4 @@
-const mongoose = require('@app/mongoose')
+const mongoose = require('@app/service/mongoose')
 
 const { Schema } = mongoose
 

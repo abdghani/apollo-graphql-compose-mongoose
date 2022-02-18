@@ -7,7 +7,7 @@ require('dotenv').config()
 require('@app/service/logger')
 
 // initializing redis
-require('@app/redis')
+require('@app/service/redis')
 
 // starting the server
 const startApolloServer = require('@app/graphql')
