@@ -1,4 +1,4 @@
-require('module-alias').addAlias('@app', `${__dirname}/`)
+require('module-alias/register')
 
 // setting env variables
 require('dotenv').config()

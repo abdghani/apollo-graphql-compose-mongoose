@@ -4,15 +4,19 @@ const {
   format: { combine, simple }
 } = winston
 
+const silent = process.env.NODE_ENV == 'test' ? true : false;
+
 const options = {
   file: {
     level: 'info',
+    silent,
     filename: process.env.API_LOG_FILENAME,
     handleExceptions: true,
     json: true
   },
   console: {
-    level: 'silly',
+    level: 'info',
+    silent,
     handleExceptions: true,
     json: false,
     colorize: true

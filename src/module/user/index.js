@@ -10,6 +10,7 @@ for (const resolver in resolvers) {
 module.exports = {
   tc: UserTC,
   query: {
+    test: UserTC.getResolver('test'),
     user: UserTC.getResolver('user', [middleware.isAuth])
   },
   mutation: {

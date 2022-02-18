@@ -29,7 +29,8 @@
     "lint": "eslint --debug ./src",
     "lint:fix": "eslint --debug ./src --fix",
     "prettier": "prettier \"**/*.+(js|jsx|json|css|md)\"",
-    "prettier:fix": "prettier --write \"**/*.+(js|jsx|json|css|md)\""
+    "prettier:fix": "prettier --write \"**/*.+(js|jsx|json|css|md)\"",
+    "test": "jest"
   },
   "engines": {
     "node": "12.x"
@@ -71,6 +72,16 @@
     "eslint": "^7.15.0",
     "eslint-config-prettier": "^6.14.0",
     "eslint-plugin-prettier": "^3.1.4",
-    "prettier": "^2.2.1"
+    "jest": "^27.5.1",
+    "prettier": "^2.2.1",
+    "supertest": "^6.2.2"
+  },
+  "_moduleAliases": {
+    "@app": "src/"
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "@app/(.*)": "<rootDir>/src/$1"
+    }
   }
 }

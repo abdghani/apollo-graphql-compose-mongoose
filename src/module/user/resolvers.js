@@ -9,6 +9,12 @@ const { userService, createToken } = require('@app/module/user/service')
 const { toInputObjectType } = require('graphql-compose')
 const { UserUpdate } = require('./inputs')
 
+const test = {
+  name: 'test',
+  type: 'String!',
+  resolve: () => "Hello world"
+}
+
 const user = {
   name: 'user',
   type: 'User!',
@@ -249,6 +255,7 @@ const updateUser = {
 
 module.exports = {
   user,
+  test,
   signIn,
   signUp,
   logout,

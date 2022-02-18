@@ -56,6 +56,7 @@ const startApolloServer = async () => {
   httpServer.listen(process.env.PORT, () =>
     winston.info(`🚀 Server ready at http://localhost:${process.env.PORT}${server.graphqlPath}`)
   )
+  return server
 }
 
 module.exports = startApolloServer
