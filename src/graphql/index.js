@@ -51,8 +51,8 @@ const startApolloServer = async () => {
     origin: '*'
   }
   app.use(cors(corsOptions))
-  httpServer.listen(process.env.APP_PORT, () =>
-    winston.info(`🚀 Server ready at http://localhost:${process.env.APP_PORT}${server.graphqlPath}`)
+  httpServer.listen(process.env.PORT, () =>
+    winston.info(`🚀 Server ready at http://localhost:${process.env.PORT}${server.graphqlPath}`)
   )
 }
 
