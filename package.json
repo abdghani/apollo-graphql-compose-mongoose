@@ -25,14 +25,14 @@
   ],
   "scripts": {
     "start": "cross-env NODE_PATH=./src node ./src",
-    "start:local": "cross-env NODE_PATH=./src nodemon ./src",
+    "start:watch": "cross-env NODE_PATH=./src nodemon ./src",
     "lint": "eslint --debug ./src",
     "lint:fix": "eslint --debug ./src --fix",
     "prettier": "prettier \"**/*.+(js|jsx|json|css|md)\"",
     "prettier:fix": "prettier --write \"**/*.+(js|jsx|json|css|md)\""
   },
   "engines": {
-    "node": "12.x"
+    "node": "18.x"
   },
   "author": "Abdullah Ghani",
   "license": "MIT",
@@ -45,8 +45,7 @@
     "crypto-random-string": "^3.3.0",
     "dotenv": "^8.6.0",
     "ejs": "^3.1.5",
-    "email-templates": "^8.0.2",
-    "express": "^5.0.0-alpha.8",
+    "express": "^4.18.2",
     "graphql": "^15.6.1",
     "graphql-compose": "^9.0.3",
     "graphql-compose-mongoose": "^9.7.0",

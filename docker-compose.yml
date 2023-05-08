@@ -1,18 +1,49 @@
-version: '3'
+version: '3.7'
 services:
   app:
     container_name: express-graphql-mongodb-boilerplate
     restart: always
     build: .
+    environment:
+      APP_NAME: 'express-graphql-mongodb-boilerplate'
+      APP_URL: 'http://localhost'
+      PORT: '8001'
+      REDIS_HOST: 'redis'
+      REDIS_PORT: '6379'
+      REDIS_PASSWORD: ''
+      REDIS_TOKEN_EXPIRY: '86400'
+      DB_URL: 'mongodb://mongo:27017/express-gql'
+      JWT_SECRET: 'secret'
+      JWT_EXPIRATION: '24h'
+      ENCODE_SECRET: '535d4d89-5df2-45fe-b65f-aa790d9d3793'
+      API_LOG_FILENAME: 'api-logs.log'
     ports:
-      - '80:8000'
+      - '8001:8001'
+    networks:
+      - message-queue-net
+
   mongo:
     container_name: mongo
     image: mongo
     ports:
       - '27017:27017'
+    networks:
+      - message-queue-net
+    command: --quiet
+
   redis:
     container_name: redis
     image: redis:alpine
+    networks:
+      - message-queue-net
     ports:
-      - '6379:6379'
+      - "6379"
+    volumes:
+      - redis-data:/data
+
+networks:
+  message-queue-net:
+    name: message-queue-net
+
+volumes:
+  redis-data:
