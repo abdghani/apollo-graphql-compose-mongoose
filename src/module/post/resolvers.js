@@ -51,9 +51,9 @@ const updatePostById = {
 const onPostAdded = {
   name: 'onPostAdded',
   description: 'Subscribe to listen to new post',
-  type: 'JSON!',
+  type: 'Post!',
   resolve: ({ payload }) => payload,
-  subscribe: () => pubsub.asyncIterator(topics.POST_ADDED)
+  subscribe: () => pubsub.asyncIterator([topics.POST_ADDED])
 }
 
 module.exports = {

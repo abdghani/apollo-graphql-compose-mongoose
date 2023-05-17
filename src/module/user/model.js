@@ -14,10 +14,7 @@ const userSchema = new Schema(
     },
     password: String,
     name: String,
-    phone: {
-      type: String,
-      unique: true
-    },
+    phone: String,
     profilePic: String,
     account: {
       verification: {
