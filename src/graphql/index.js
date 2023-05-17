@@ -7,7 +7,7 @@ const { ApolloServer } = require('@apollo/server')
 const { createServer } = require('http')
 const { expressMiddleware } = require('@apollo/server/express4')
 const { authentication, subscriptionAuth } = require('@app/middleware/authentication')
-const { ApolloServerPluginDrainHttpServer } = require('apollo-server-core')
+const { ApolloServerPluginDrainHttpServer } = require('@apollo/server/plugin/drainHttpServer');
 
 const { WebSocketServer } = require('ws')
 const { useServer } = require('graphql-ws/lib/use/ws')

@@ -7,12 +7,13 @@ services:
     environment:
       APP_NAME: 'express-graphql-mongodb-boilerplate'
       APP_URL: 'http://localhost'
+      GRAPH_PATH: "/graphql"
       PORT: '8001'
       REDIS_HOST: 'redis'
       REDIS_PORT: '6379'
       REDIS_PASSWORD: ''
       REDIS_TOKEN_EXPIRY: '86400'
-      DB_URL: 'mongodb://mongo:27017/express-gql'
+      DB_URL: 'mongodb://mongo:27018/express-gql'
       JWT_SECRET: 'secret'
       JWT_EXPIRATION: '24h'
       ENCODE_SECRET: '535d4d89-5df2-45fe-b65f-aa790d9d3793'
@@ -26,10 +27,11 @@ services:
     container_name: mongo
     image: mongo
     ports:
-      - '27017:27017'
+      - '27018:27018'
     networks:
       - message-queue-net
-    command: --quiet
+    command: mongod --port 27018 --quiet
+
 
   redis:
     container_name: redis
