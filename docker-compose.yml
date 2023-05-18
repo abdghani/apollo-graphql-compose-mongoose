@@ -30,7 +30,7 @@ services:
       - '27018:27018'
     networks:
       - message-queue-net
-    command: mongod --port 27018 --quiet
+    command: mongod --quiet --port 27018 
 
 
   redis:
