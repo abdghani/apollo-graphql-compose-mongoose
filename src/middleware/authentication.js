@@ -36,9 +36,9 @@ const authentication = async ({ req }) => {
   }
 }
 
-const subscriptionAuth = async connectionParams => {
+const subscriptionAuth = async ctx => {
   try {
-    const { Authorization: authorization } = connectionParams
+    const { Authorization: authorization } = ctx.connectionParams
 
     if (!authorization) {
       return {
